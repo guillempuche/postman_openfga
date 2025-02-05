@@ -1,0 +1,420 @@
+{
+	"info": {
+		"_postman_id": "63076348-662c-4d6b-8046-bc239fae7ce9",
+		"name": "OpenFGA API",
+		"description": "A high performance and flexible authorization/permission engine built for developers and inspired by Google Zanzibar.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3447259"
+	},
+	"item": [
+		{
+			"name": "Stores",
+			"item": [
+				{
+					"name": "List Stores",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores"
+							]
+						},
+						"description": "Returns a paginated list of OpenFGA stores"
+					},
+					"response": []
+				},
+				{
+					"name": "List Stores filters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores?page_size={{pageSize}}&continuation_token={{continuationToken}}&name={{name}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores"
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "{{pageSize}}",
+									"description": "Number of stores to return"
+								},
+								{
+									"key": "continuation_token",
+									"value": "{{continuationToken}}",
+									"description": "Token for pagination"
+								},
+								{
+									"key": "name",
+									"value": "{{name}}",
+									"description": "Filter stores by name"
+								}
+							]
+						},
+						"description": "Returns a paginated list of OpenFGA stores"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"my-store-name\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores"
+							]
+						},
+						"description": "Create a unique OpenFGA store"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Store",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						},
+						"description": "Returns an OpenFGA store by its identifier"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Store",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						},
+						"description": "Delete an OpenFGA store"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization Models",
+			"item": [
+				{
+					"name": "List Authorization Models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/authorization-models?page_size={{pageSize}}&continuation_token={{continuationToken}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"authorization-models"
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "{{pageSize}}"
+								},
+								{
+									"key": "continuation_token",
+									"value": "{{continuationToken}}"
+								}
+							]
+						},
+						"description": "Return all authorization models for a store"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Authorization Model",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type_definitions\": [\n    {\n      \"type\": \"user\"\n    },\n    {\n      \"type\": \"document\",\n      \"relations\": {\n        \"reader\": {\n          \"union\": {\n            \"child\": [\n              {\n                \"this\": {}\n              },\n              {\n                \"computedUserset\": {\n                  \"object\": \"\",\n                  \"relation\": \"writer\"\n                }\n              }\n            ]\n          }\n        },\n        \"writer\": {\n          \"this\": {}\n        }\n      }\n    }\n  ],\n  \"schema_version\": \"1.1\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/authorization-models",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"authorization-models"
+							]
+						},
+						"description": "Create a new authorization model"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Authorization Model",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/authorization-models/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"authorization-models",
+								"{{id}}"
+							]
+						},
+						"description": "Get a specific authorization model version"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Relationship Queries",
+			"item": [
+				{
+					"name": "Check",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tuple_key\": {\n    \"user\": \"user:anne\",\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/check",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"check"
+							]
+						},
+						"description": "Check if a user has a relationship with an object"
+					},
+					"response": []
+				},
+				{
+					"name": "Batch Check",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"checks\": [\n    {\n      \"tuple_key\": {\n        \"user\": \"user:anne\",\n        \"relation\": \"reader\",\n        \"object\": \"document:2021-budget\"\n      },\n      \"correlation_id\": \"check1\"\n    }\n  ],\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/batch-check",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"batch-check"
+							]
+						},
+						"description": "Batch check multiple authorization queries"
+					},
+					"response": []
+				},
+				{
+					"name": "List Objects",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"document\",\n  \"relation\": \"reader\",\n  \"user\": \"user:anne\",\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/list-objects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"list-objects"
+							]
+						},
+						"description": "List all objects of a type that a user has a relation with"
+					},
+					"response": []
+				},
+				{
+					"name": "Expand",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tuple_key\": {\n    \"relation\": \"reader\",\n    \"object\": \"document:2021-budget\"\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/expand",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"expand"
+							]
+						},
+						"description": "Expand all relationships in userset tree format"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Relationship Tuples",
+			"item": [
+				{
+					"name": "Write Tuples",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"writes\": {\n    \"tuple_keys\": [\n      {\n        \"user\": \"user:anne\",\n        \"relation\": \"writer\",\n        \"object\": \"document:2021-budget\"\n      }\n    ]\n  },\n  \"authorization_model_id\": \"01G5JAVJ41T49E9TT3SKVS7X1J\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/write",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"write"
+							]
+						},
+						"description": "Add or delete tuples from the store"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Tuples",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tuple_key\": {\n    \"object\": \"document:2021-budget\",\n    \"relation\": \"reader\"\n  },\n  \"page_size\": 50\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}/read",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"read"
+							]
+						},
+						"description": "Read tuples from the store"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.example.com",
+			"type": "string"
+		}
+	]
+}
