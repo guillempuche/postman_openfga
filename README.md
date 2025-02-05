@@ -45,7 +45,106 @@ This collection is based on the official OpenFGA API specifications:
 
 > **Note**: The `bearerToken` is marked as a "secret" type for additional security. Postman will treat this value with extra care and hide it in the UI.
 
-[Rest of the sections remain the same...]
+## Example: Setting up a Document Management System
+
+This example shows how to create a store, set up an authorization model for document management, and grant access to a user.
+
+1. First, create a new store:
+```http
+POST {{baseUrl}}/stores
+Content-Type: application/json
+
+{
+  "name": "document-management-store"
+}
+
+// Response will contain your store ID
+{
+  "id": "01FCNDV6P870EA6S7TK1DSYDG0",
+  "name": "document-management-store",
+  "created_at": "2024-02-05T12:00:00.000Z"
+}
+```
+
+2. Create an authorization model for document management:
+```http
+POST {{baseUrl}}/stores/{{storeId}}/authorization-models
+Content-Type: application/json
+
+{
+  "schema_version": "1.1",
+  "type_definitions": [
+    {
+      "type": "user"
+    },
+    {
+      "type": "document",
+      "relations": {
+        "reader": {
+          "union": {
+            "child": [
+              {
+                "this": {}
+              },
+              {
+                "computedUserset": {
+                  "relation": "writer"
+                }
+              }
+            ]
+          }
+        },
+        "writer": {
+          "this": {}
+        }
+      }
+    }
+  ]
+}
+
+// Response will contain your authorization model ID
+{
+  "authorization_model_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+}
+```
+
+3. Write a relationship tuple to grant access:
+```http
+POST {{baseUrl}}/stores/{{storeId}}/write
+Content-Type: application/json
+
+{
+  "writes": {
+    "tuple_keys": [
+      {
+        "user": "user:anne",
+        "relation": "writer",
+        "object": "document:budget-2024"
+      }
+    ]
+  }
+}
+```
+
+4. Verify access:
+```http
+POST {{baseUrl}}/stores/{{storeId}}/check
+Content-Type: application/json
+
+{
+  "tuple_key": {
+    "user": "user:anne",
+    "relation": "reader",
+    "object": "document:budget-2024"
+  },
+  "authorization_model_id": "01FCNDV6P870EA6S7TK1DSYDG0"
+}
+
+// Response should show allowed: true because writers are also readers
+{
+  "allowed": true
+}
+```
 
 ## Contributing
 
