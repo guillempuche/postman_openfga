@@ -50,7 +50,3 @@ This collection is based on the official OpenFGA API specifications:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-[Add your chosen license]
