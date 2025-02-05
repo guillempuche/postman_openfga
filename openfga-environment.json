@@ -1,0 +1,41 @@
+{
+  "name": "OpenFGA Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.openfga.example.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "bearerToken",
+      "value": "your-bearer-token-here",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "storeId",
+      "value": "your-store-id",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "authorizationModelId",
+      "value": "your-authorization-model-id",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "pageSize",
+      "value": "10",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "continuationToken",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    }
+  ]
+}
