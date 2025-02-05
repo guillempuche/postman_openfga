@@ -1,5 +1,9 @@
 # OpenFGA API Collection
 
+<p align="center">
+  <img src="postman-collection.png" alt="Postman UI" style="max-width: 600px; min-width: 400px; width: 100%;" />
+</p>
+
 Postman collection for OpenFGA API with environment setup. Ready-to-use requests for authorization model and relationship management. Includes example authorization models for:
 - Document management (Google Drive-like)
 - GitHub-style repository access
